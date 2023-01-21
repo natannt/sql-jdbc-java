@@ -14,7 +14,6 @@ public class TesteBancoJdbc {
 		UserPosDAO userposDAO = new UserPosDAO();
 		Userposjava userposJava = new Userposjava();
 		
-		userposJava.setId(6L);
 		userposJava.setNome("Paulo teste");
 		userposJava.setEmail("paulo@gmail.com");
 		
@@ -51,6 +50,36 @@ public class TesteBancoJdbc {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Test
+	public void initAtualizar () {
+		try {
+		
+		UserPosDAO dao = new UserPosDAO();
+		
+		Userposjava objetoBanco = dao.buscar(5L);
+		
+		objetoBanco.setNome("Nome atualizado com o método atualizar");
+		
+		dao.atualizar(objetoBanco);
+		
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void initDeletar() {
+		
+		try {
+			
+			UserPosDAO dao = new UserPosDAO();
+			dao.deletar(6L);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
