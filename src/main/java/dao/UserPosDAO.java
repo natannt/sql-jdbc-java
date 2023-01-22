@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexaojdbc.SingleConnection;
+import model.Telefone;
 import model.Userposjava;
 
 public class UserPosDAO {
@@ -20,7 +21,7 @@ public class UserPosDAO {
 
 	public void salvar(Userposjava userposjava) {
 		try {
-			String sql = "Insert into userposjava (nome, email) values (?,?)";
+			String sql = "Insert into userposjava (nome, email) values (?, ?, ?);";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, userposjava.getNome());
 			insert.setString(2, userposjava.getEmail());
@@ -28,14 +29,38 @@ public class UserPosDAO {
 			connection.commit(); // Salva no BD
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			try {
 				connection.rollback(); // reverte operação
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 	}
+	
+	public void salvarTelefone(Telefone telefone) {
+		try {
+			
+			String sql = "INSERT INTO telefoneuser(numero, tipo, usuariopessoa) VALUES (?, ?, ?); "; // String sql
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, telefone.getNumero());
+			statement.setString(2, telefone.getTipo());
+			statement.setLong(3, telefone.getUsurario());
+			statement.execute();
+			connection.commit();
+			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 	public List<Userposjava> listar() throws Exception {
 		List<Userposjava> list = new ArrayList<Userposjava>();
